@@ -22,6 +22,20 @@ class Content extends Component {
     });
   };
 
+  displayUploadedImage = (event) => {
+    var selectedFile = event.target.files[0];
+    var reader = new FileReader();
+
+    var imgtag = document.getElementById("myimage");
+    imgtag.title = selectedFile.name;
+
+    reader.onload = function (event) {
+      imgtag.src = event.target.result;
+    };
+
+    reader.readAsDataURL(selectedFile);
+  }
+
   render() {
     return (
       <Fragment>
@@ -29,30 +43,38 @@ class Content extends Component {
           <Grid item sm>
             <Paper className="Paper-container">
               Left Pane
-              <br />
-              <br />
+
               <Countdown />
-              /*{" "}
-              {this.state.imageList.map((image, index) => {
-                return (
-                  <img
-                    src={image}
-                    alt="Text to display if image fails to load"
-                    key={index}
-                  />
-                );
-              })}{" "}
-              */
+
+              {
+                this.state.imageList.map((image, index) => {
+                  return (
+                    <img
+                      src={image}
+                      alt="Text to display if image fails to load"
+                      key={index}
+                    />
+                  );
+                })
+              }
+
             </Paper>
           </Grid>
 
           <Grid item sm>
             <Paper className="Paper-container">
               Right Pane
+              <input type='file' id='single' onChange={this.displayUploadedImage} />
+
+              <img id="myimage" height="200" />
+
               <WebcamDialog addImage={this.addImage} />
+              
             </Paper>
           </Grid>
         </Grid>
+
+        {/* Question: What's supposed to be in the "New Session" tab of the footer? */}
         <Footer />
       </Fragment>
     );
